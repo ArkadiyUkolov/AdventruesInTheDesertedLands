@@ -16,12 +16,23 @@ textbox = 0
 button1 = 0
 button2 = 0
 
-junctions = np.empty([10, 10])
-junctions[0, 0] = 'story/exam/A'
-junctions[0, 1] = 'story/city'
+junctions = [
+        ('story/exam/A/A'),
+        ('story/exam/A/B'),
+        ('story/exam/B/A'),
+        ('story/exam/B/B')
+    ]
 
-junctions[1, 0] = 'story/exam/B'
-junctions[1, 1] = 'story/city'
+end = [
+        ('story/city/A/2.txt')
+    ]
+
+new_way = [
+        ('story/city'),
+        ('story/city'),
+        ('story/city'),
+        ('story/city')
+    ]
 
 
 way = 'story/exam'
@@ -69,17 +80,18 @@ def create_button():
 
 def create_text():
     global textFrame, text_to_show, textbox, event_number, photo
-    
-    if os.path.isfile((way + "/{0}.pgm").format(event_number)) == True:
-       photo = PhotoImage(file = (way + "/{0}.pgm").format(event_number))
 
     textbox = Label(textFrame, text = text_to_show)
-    textbox.configure(image = photo, anchor = 'w', compound = 'left', justify = 'left',
+    textbox.configure(anchor = 'w', compound = 'left', justify = 'left',
                       fg = 'white', bg = 'black', font=('Verdand', 20, "bold"), wraplength = 500)
+    
+    if os.path.isfile((way + "/{0}.pgm").format(event_number)) == True:
+        photo = PhotoImage(file = (way + "/{0}.pgm").format(event_number))
+        textbox.configure(image = photo)
     
     textbox.grid(row = 2)
 
-    WAY_TEST = Label(textFrame, text = ('Way: ', (way + "/{0}.pgm").format(event_number)))
+    WAY_TEST = Label(textFrame, text = ((way + "/{0}.pgm").format(event_number)))
     WAY_TEST.grid(row = 0)
 
 
@@ -123,27 +135,35 @@ def button_clicked2():
     create_text()
 
 def story_way(letter):
-    global way, event_number
+    global way, event_number, junctions, new_way
     event_number = 1
+    
+    way = way + '/' + letter
+
     i = 0
-    size = junctions[0,:]
-    while i < np.size(size):
-        if way == junctions[i, 0]:
-            way = junctions[i, 1]
-        else:
-            way = way + '/' + letter
-    i += 1
+    while i < np.size(junctions):
+        if way == junctions[i]:
+            way = new_way[i]
+        i += 1
 
 def event_change():
     global text_to_show
     text_to_show = loadtext()
 
 def loadtext():
-    global way, event_number
-    f = open((way + "/{0}.txt").format(event_number),"r")
-    string = f.read()
-    return string
+    global way, event_number, button1
 
+    i = 0
+    while i < np.size(end):
+        if ((way + "/{0}.txt").format(event_number)) == end[i]:
+            button1.destroy()
+            return 'NO ESCAPE'
+        else:
+            f = open((way + "/{0}.txt").format(event_number),"r")
+            string = f.read()
+            return string
+        i += 1
+        
 create_button()
-create_text()F
+create_text()
 root.mainloop()
