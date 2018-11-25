@@ -171,7 +171,7 @@ def story_way(letter):
     event_number = 1
     
     way = way + '/' + letter
-    print(way)
+#    print(way)
 
     if letter == "A":
         number = 0
