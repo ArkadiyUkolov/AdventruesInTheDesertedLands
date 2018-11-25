@@ -67,7 +67,7 @@ new_way_with_item_1 = [
 
 
 
-way = 'story/city'
+way = 'story/exam'
 
 photo = PhotoImage(file=('story/exam/0.pgm'))
 
@@ -123,8 +123,8 @@ def create_text():
     
     textbox.grid(row = 2)
 
-    WAY_TEST = Label(textFrame, text = ((way + "/{0}.pgm").format(event_number)))
-    WAY_TEST.grid(row = 0)
+ #  WAY_TEST = Label(textFrame, text = ((way + "/{0}.pgm").format(event_number)))
+ #  WAY_TEST.grid(row = 0)
 
 
 
